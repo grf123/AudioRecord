@@ -21,7 +21,7 @@ import java.util.UUID;
  * @author Manbas
  */
 public class MakeAudioByAUDIO {
-    public String path;
+    public String mFilePath;
     public static boolean isRecording;
     String randUUID = UUID.randomUUID().toString();
     private AudioRecord mRecord;
@@ -33,7 +33,7 @@ public class MakeAudioByAUDIO {
     int audioEncoding = AudioFormat.ENCODING_PCM_16BIT;
 
     public MakeAudioByAUDIO(String path) {
-        this.path = sanitizaPath(path);
+        this.mFilePath = sanitizaPath(path);
     }
 
     private String sanitizaPath(String path) {
@@ -44,8 +44,7 @@ public class MakeAudioByAUDIO {
         if (!path.contains(".")) {
             path = path + randUUID + ".pcm";
         }
-        file = new File(Environment.getExternalStorageDirectory()
-                .getAbsoluteFile() + "/audioRecord");
+        file = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + "/audioRecord");
         if (!file.exists()) {
             file.mkdirs();
         }
@@ -59,19 +58,19 @@ public class MakeAudioByAUDIO {
             throw new IOException("SD card is not mounted,it is" + state + ".");
         }
         //检查上级目录是否创建
-        File directory = new File(path).getParentFile();
+        File directory = new File(mFilePath).getParentFile();
         if (!directory.exists() && !directory.mkdirs()) {
             throw new IOException("ParentFile is not create.");
 
         }
         //创建录音文件
-        file = new File(path);
+        file = new File(mFilePath);
         if (!file.exists()) {
             file.createNewFile();
         }
         try {
             // 创建数据流
-            OutputStream os = new FileOutputStream(path);
+            OutputStream os = new FileOutputStream(mFilePath);
             BufferedOutputStream bos = new BufferedOutputStream(os);
             DataOutputStream dos = new DataOutputStream(bos);
             // 创建bufferSize的大小，必须大于等于AudioRecord缓存空间大小的最小值

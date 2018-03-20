@@ -1,6 +1,7 @@
 
 package com.manbas.audiorecord.audio;
 
+import android.Manifest;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -31,6 +32,8 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
         PlayAudio_btn = (Button) findViewById(R.id.PlayAudio_btn);
         PlayAudio_btn.setEnabled(true);
         PlayAudio_btn.setOnClickListener(this);
+        // 请求权限
+        requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 20);
     }
 
     @Override
@@ -92,7 +95,7 @@ public class MainActivity extends Activity implements OnTouchListener, OnClickLi
     @Override
     public void onClick(View v) {
         if (v == PlayAudio_btn) {
-            PlayAudio play = new PlayAudio(makeAudio.path);
+            PlayAudio play = new PlayAudio(makeAudio.mFilePath);
             play.play();
 
 
